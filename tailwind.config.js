@@ -1,0 +1,21 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                'eci-blue': '#1e3a8a',
+                'eci-orange': '#ea580c',
+                'eci-green': '#15803d',
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                serif: ['Playfair Display', 'serif'],
+            },
+        },
+    },
+    plugins: [],
+}
