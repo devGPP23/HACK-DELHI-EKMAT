@@ -1,0 +1,27 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch is up to date with 'origin/main'.
+#
+# Changes to be committed:
+#	modified:   src/App.jsx
+#	modified:   src/components/AnalyticsCharts.jsx
+#	new file:   src/components/ConstitutionalImpact.jsx
+#	new file:   src/components/DemoSection.jsx
+#	new file:   src/components/Footer.jsx
+#	modified:   src/components/IndiaMapSVG.jsx
+#	new file:   src/components/IndiaStatePaths.js
+#	new file:   src/components/InteractiveMap.jsx
+#	new file:   src/components/LokMitra.jsx
+#	deleted:    src/components/MapData.js
+#	modified:   src/components/MetricsCards.jsx
+#	modified:   src/components/ScenarioPanel.jsx
+#	new file:   src/components/ScrollReveal.jsx
+#	modified:   src/components/TimelineSlider.jsx
+#	modified:   src/hooks/useSimulation.js
+#	modified:   src/lib/simulationEngine.js
+#	modified:   src/pages/Home.jsx
+#	new file:   src/pages/Landing.jsx
+#

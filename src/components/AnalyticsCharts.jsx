@@ -1,12 +1,13 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, LineChart, Line, ReferenceLine } from 'recharts';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
-const ChartCard = ({ title, children }) => (
+const ChartCard = ({ title, children, className }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col h-[300px]"
+        className={`bg-white shadow-sm border border-slate-200 p-4 flex flex-col h-[300px] ${className || ''}`}
     >
         <h3 className="text-sm font-semibold text-slate-500 mb-4">{title}</h3>
         <div className="flex-1 w-full min-h-0">
@@ -16,73 +17,90 @@ const ChartCard = ({ title, children }) => (
 );
 
 export default function AnalyticsCharts({ results }) {
+    const { t } = useLanguage();
+
     if (!results || results.length === 0) return null;
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            {/* Governance Days Gained */}
-            <ChartCard title="Cumulative Governance Days Value">
+            {/* Projected Cost Analysis - FULL WIDTH */}
+            <ChartCard title={t('projectedCost')} className="lg:col-span-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={results}>
                         <defs>
-                            <linearGradient id="colorDays" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                            <linearGradient id="colorOnoe" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
                                 <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                            </linearGradient>
+                            <linearGradient id="colorBase" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#64748b" stopOpacity={0.1} />
+                                <stop offset="95%" stopColor="#64748b" stopOpacity={0} />
                             </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                         <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
-                        <Tooltip
-                            contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                            itemStyle={{ color: '#10b981' }}
-                        />
-                        <Area type="monotone" dataKey="totalGovernanceDaysGained" stroke="#10b981" fillOpacity={1} fill="url(#colorDays)" />
+                        <Tooltip />
+                        <Area type="monotone" dataKey="cumulativeBaselineCost" stackId="1" stroke="#94a3b8" fill="url(#colorBase)" name={t('baselineCost')} />
+                        <Area type="monotone" dataKey="cumulativeActualCost" stackId="2" stroke="#10b981" fill="url(#colorOnoe)" name={t('onoeCost')} />
                     </AreaChart>
                 </ResponsiveContainer>
             </ChartCard>
 
-            {/* Cost Savings */}
-            <ChartCard title="Projected Cost Analysis (₹ Crores)">
+            {/* Governance Days Gained - GREEN */}
+            <ChartCard title={t('cumulativeGovDays')}>
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={results}>
+                    <AreaChart data={results}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                         <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <Tooltip />
-                        <ReferenceLine y={0} stroke="#94a3b8" />
-                        <Line type="monotone" dataKey="cumulativeCostSavings" stroke="#d97706" strokeWidth={2} dot={false} activeDot={{ r: 6 }} />
-                    </LineChart>
+                        <Area type="monotone" dataKey="totalGovernanceDaysGained" stroke="#10b981" fill="#ecfdf5" name={t('daysGained')} />
+                    </AreaChart>
                 </ResponsiveContainer>
             </ChartCard>
 
-            {/* Synchronization Progress */}
-            <ChartCard title="State Synchronization Status">
+            {/* EVM Units */}
+            <ChartCard title={t('evmRequirement')}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={results}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                         <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
-                        <YAxis domain={[0, 30]} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <Tooltip cursor={{ fill: '#f1f5f9' }} />
-                        <Bar dataKey="synchronizedStates" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="evmUnits" fill="#3b82f6" radius={[4, 4, 0, 0]} name="EVM Units" />
                     </BarChart>
                 </ResponsiveContainer>
             </ChartCard>
 
-            {/* Security Demand */}
-            <ChartCard title="Security Personnel Demand vs Capacity">
+            {/* Election Staff - LINE STEP - ROW START */}
+            <ChartCard title={t('electionStaff')}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={results}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                         <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
                         <Tooltip />
-                        <ReferenceLine y={600000} label="National Capacity" stroke="#ef4444" strokeDasharray="3 3" />
-                        <Line type="stepAfter" dataKey="securityPeakDemand" stroke="#6366f1" strokeWidth={2} dot={false} />
+                        <Line type="stepAfter" dataKey="pollStaff" stroke="#8b5cf6" strokeWidth={2} dot={false} name={t('civilStaff')} />
                     </LineChart>
                 </ResponsiveContainer>
             </ChartCard>
+
+            {/* Security Demand - LINE STEP - ROW END */}
+            <ChartCard title={t('securityDemand')}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={results}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
+                        <Tooltip />
+                        <ReferenceLine y={600000} label="Cap" stroke="#ef4444" strokeDasharray="3 3" />
+                        <Line type="stepAfter" dataKey="securityPeakDemand" stroke="#6366f1" strokeWidth={2} dot={false} name={t('activeSecurity')} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </ChartCard>
+
         </div>
     );
 }
