@@ -200,7 +200,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <Activity size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 30).toLocaleString()} km <span className="font-normal opacity-70">of 4-lane National Highways</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 34).toLocaleString()} km <span className="font-normal opacity-70">of 4-lane National Highways</span></h4>
                                         </div>
                                     </div>
 
@@ -209,7 +209,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <Cpu size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 15).toLocaleString()} km <span className="font-normal opacity-70">of Railway Track (DFC Norms)</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 14).toLocaleString()} km <span className="font-normal opacity-70">of Railway Track (DFC Norms)</span></h4>
                                         </div>
                                     </div>
 
@@ -218,7 +218,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <Activity size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 3000).toLocaleString()} <span className="font-normal opacity-70">PM Awas Yojana Housing Units</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 11000).toLocaleString()} <span className="font-normal opacity-70">PM Awas Yojana Housing Units</span></h4>
                                         </div>
                                     </div>
                                 </>
@@ -229,7 +229,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <HeartPulse size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 5).toLocaleString()} <span className="font-normal opacity-70">District Hospitals Sanctioned</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 73).toLocaleString()} <span className="font-normal opacity-70">Ayushman Health & Wellness Centers</span></h4>
                                         </div>
                                     </div>
 
@@ -238,7 +238,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <Droplets size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 15000).toLocaleString()} <span className="font-normal opacity-70">Jal Jeevan Water Connections</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 75000).toLocaleString()} <span className="font-normal opacity-70">Jal Jeevan Water Connections</span></h4>
                                         </div>
                                     </div>
 
@@ -247,7 +247,7 @@ export default function MetricsCards({ currentYearResult }) {
                                             <Sun size={12} />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 50).toLocaleString()} MW <span className="font-normal opacity-70">of Solar Power Infra Setup</span></h4>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 33).toLocaleString()} MW <span className="font-normal opacity-70">of Solar Power Infra Setup</span></h4>
                                         </div>
                                     </div>
                                 </>
@@ -261,7 +261,7 @@ export default function MetricsCards({ currentYearResult }) {
                             {impactPage === 0 ? '+ Show Social Impact' : '+ Show Infrastructure'}
                         </button>
 
-                        <p className="mt-4 text-[9px] text-emerald-600/60 italic text-center">Based on average Ministry daily output estimates</p>
+                        <p className="mt-4 text-[9px] text-emerald-600/60 italic text-center leading-tight">Based on verified GoI 2023-24 daily averages (MoRTH, Indian Railways, PMAY, JJM)</p>
                     </div>
                 )}
 
