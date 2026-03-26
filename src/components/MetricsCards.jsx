@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { TrendingUp, Zap, ShieldAlert, Activity, Cpu, Users, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { TrendingUp, Zap, ShieldAlert, Activity, Cpu, Users, MapPin, ChevronDown, ChevronUp, Droplets, HeartPulse, Sun } from 'lucide-react';
 import { INDIAN_STATES } from '../lib/simulationEngine';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -109,6 +109,10 @@ export default function MetricsCards({ currentYearResult }) {
 
     const govDays = Math.max(0, currentYearResult.totalGovernanceDaysGained);
 
+    // Toggle states
+    const [showImpact, setShowImpact] = useState(false);
+    const [impactPage, setImpactPage] = useState(0);
+
     const metrics = [
         {
             label: t('metricGovDays'),
@@ -163,57 +167,112 @@ export default function MetricsCards({ currentYearResult }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-full content-start text-slate-800">
             {/* Left Column: Governance Impact (Takes up 5 cols) */}
-            <div className="md:col-span-5 h-full flex flex-col p-5 border bg-emerald-500/5 text-emerald-800 border-emerald-200 backdrop-blur-sm shadow-sm transition-all hover:shadow-md relative">
-                <div className="flex items-center gap-2 mb-2 justify-center">
-                    <TrendingUp className="w-5 h-5 text-emerald-500" />
-                    <span className="text-xs font-bold uppercase tracking-widest opacity-80">Governance Days (MCC)</span>
-                </div>
-                <h3 className="text-5xl font-black tracking-tight leading-none text-center text-emerald-600 mt-2">
-                    <CountUp to={govDays} />
-                </h3>
-                <span className="text-[10px] font-semibold opacity-60 uppercase text-center mt-2">Days Available</span>
+            <div className={`md:col-span-5 flex flex-col p-5 border bg-emerald-500/5 text-emerald-800 border-emerald-200 backdrop-blur-sm shadow-sm transition-all hover:shadow-md relative group ${showImpact ? 'min-h-[420px]' : 'h-32 justify-center'}`}>
 
-                <div className="mt-6 pt-4 border-t border-emerald-200/50 flex-1">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Activity size={14} className="text-emerald-500" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">What work u could have done?</span>
+                {/* Header Row */}
+                <div className={`transition-all duration-300 ${showImpact ? 'mb-4' : 'flex items-center justify-between w-full pr-8'}`}>
+                    <div className="flex items-center gap-2 justify-center">
+                        <TrendingUp className="w-5 h-5 text-emerald-500" />
+                        <span className="text-xs font-bold uppercase tracking-widest opacity-80">Governance Days (MCC)</span>
                     </div>
 
-                    <div className="space-y-4">
-                        <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
-                            <div className="p-1.5 bg-emerald-100 rounded text-emerald-600 shrink-0">
-                                <Activity size={12} /> {/* Using Activity as a placeholder for Road/Highway */}
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-bold text-slate-700">{(govDays * 30).toLocaleString()} km <span className="font-normal opacity-70">of 4-lane National Highways</span></h4>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
-                            <div className="p-1.5 bg-blue-100 rounded text-blue-600 shrink-0">
-                                <Cpu size={12} /> {/* Using Cpu as placeholder for Train */}
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-bold text-slate-700">{(govDays * 15).toLocaleString()} km <span className="font-normal opacity-70">of Railway Track (DFC Norms)</span></h4>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
-                            <div className="p-1.5 bg-amber-100 rounded text-amber-600 shrink-0">
-                                <Activity size={12} /> {/* Using Activity as placeholder for House */}
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-bold text-slate-700">{(govDays * 3000).toLocaleString()} <span className="font-normal opacity-70">PM Awas Yojana Housing Units</span></h4>
-                            </div>
-                        </div>
+                    <div className={`${showImpact ? 'text-center mt-2' : 'text-right'}`}>
+                        <h3 className={`${showImpact ? 'text-5xl' : 'text-4xl'} font-black tracking-tight leading-none text-emerald-600`}>
+                            <CountUp to={govDays} />
+                        </h3>
+                        {showImpact && <span className="text-[10px] font-semibold opacity-60 uppercase text-center mt-2 block">Days Available</span>}
                     </div>
-
-                    <button className="w-full mt-4 py-2 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded hover:bg-emerald-100 transition-colors">
-                        + Show More
-                    </button>
-
-                    <p className="mt-4 text-[9px] text-emerald-600/60 italic">Based on Kovind Committee Report (2024)</p>
                 </div>
+
+                {/* Expanded Content */}
+                {showImpact && (
+                    <div className="mt-2 pt-4 border-t border-emerald-200/50 flex-1 animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Activity size={14} className="text-emerald-500" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">What work u could have done?</span>
+                        </div>
+
+                        <div className="space-y-4">
+                            {impactPage === 0 ? (
+                                <>
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-emerald-100 rounded text-emerald-600 shrink-0">
+                                            <Activity size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 30).toLocaleString()} km <span className="font-normal opacity-70">of 4-lane National Highways</span></h4>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-blue-100 rounded text-blue-600 shrink-0">
+                                            <Cpu size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 15).toLocaleString()} km <span className="font-normal opacity-70">of Railway Track (DFC Norms)</span></h4>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-amber-100 rounded text-amber-600 shrink-0">
+                                            <Activity size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 3000).toLocaleString()} <span className="font-normal opacity-70">PM Awas Yojana Housing Units</span></h4>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-red-100 rounded text-red-600 shrink-0">
+                                            <HeartPulse size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 5).toLocaleString()} <span className="font-normal opacity-70">District Hospitals Sanctioned</span></h4>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-indigo-100 rounded text-indigo-600 shrink-0">
+                                            <Droplets size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 15000).toLocaleString()} <span className="font-normal opacity-70">Jal Jeevan Water Connections</span></h4>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 bg-white/40 p-2 rounded">
+                                        <div className="p-1.5 bg-yellow-100 rounded text-yellow-600 shrink-0">
+                                            <Sun size={12} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xs font-bold text-slate-700">{(govDays * 50).toLocaleString()} MW <span className="font-normal opacity-70">of Solar Power Infra Setup</span></h4>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setImpactPage(p => p === 0 ? 1 : 0); }}
+                            className="w-full mt-4 py-2 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded hover:bg-emerald-100 transition-colors"
+                        >
+                            {impactPage === 0 ? '+ Show Social Impact' : '+ Show Infrastructure'}
+                        </button>
+
+                        <p className="mt-4 text-[9px] text-emerald-600/60 italic text-center">Based on average Ministry daily output estimates</p>
+                    </div>
+                )}
+
+                {/* Toggle Button */}
+                <button
+                    onClick={(e) => { e.stopPropagation(); setShowImpact(!showImpact); }}
+                    className="absolute bottom-2 right-2 p-1.5 rounded-full bg-emerald-100 text-emerald-600 hover:bg-emerald-200 transition-colors shadow-sm"
+                    title={showImpact ? "Hide impact details" : "Show impact details"}
+                >
+                    {showImpact ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
             </div>
 
             {/* Right Column: Other Metrics (Takes up 7 cols) */}
