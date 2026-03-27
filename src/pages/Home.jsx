@@ -21,6 +21,8 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import autoTable from 'jspdf-autotable';
 import { motion, AnimatePresence } from 'framer-motion';
+import NewsTicker from '../components/NewsTicker';
+import DebaterPanel from '../components/DebaterPanel';
 
 export default function Home() {
     const { scenario, results, updateScenario, resetScenario, triggerReelection } = useSimulation();
@@ -477,6 +479,9 @@ export default function Home() {
                 triggerReelection={triggerReelection}
                 resetScenario={resetScenario}
             />
+
+            {/* AI News Ticker */}
+            <NewsTicker currentYearResult={currentYearResult} />
 
         </div >
     );

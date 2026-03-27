@@ -28,7 +28,7 @@ export default function VoiceController({
         setStatusText("Listening...");
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            const mediaRecorder = new MediaRecorder(stream);
             mediaRecorderRef.current = mediaRecorder;
             audioChunksRef.current = [];
 
@@ -39,7 +39,14 @@ export default function VoiceController({
             };
 
             mediaRecorder.onstop = async () => {
-                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                // Ignore empty clicks
+                if (audioChunksRef.current.length === 0) {
+                    setStatusText("Recording too short.");
+                    return;
+                }
+
+                // Force WAV to trick Sarvam FFmpeg
+                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
                 stream.getTracks().forEach(track => track.stop());
                 await processAudio(audioBlob);
             };
@@ -70,7 +77,7 @@ export default function VoiceController({
 
             // STEP 1: Sarvam Speech-to-Text
             const formData = new FormData();
-            formData.append('file', audioBlob, 'voice.webm');
+            formData.append('file', audioBlob, 'voice.wav'); // Force ffmpeg proxy
             formData.append('model', 'saaras:v3');
             formData.append('language_code', 'unknown');
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, BookOpen, Scale, TrendingUp, Users, AlertTriangle, CheckCircle2, ChevronRight, Clock } from 'lucide-react';
 import { GdpGrowthChart, InflationChart, InvestmentChart, CrimeRateChart, FiscalDeficitChart } from '../components/ImpactCharts';
+import DebaterPanel from '../components/DebaterPanel';
 
 export default function ImpactAnalysis({ onBack }) {
     const [activeTab, setActiveTab] = useState('constitutional');
@@ -29,7 +30,11 @@ export default function ImpactAnalysis({ onBack }) {
                 </div>
             </header>1
 
-            <main className="max-w-7xl mx-auto px-6 py-10">
+            <main className="max-w-7xl mx-auto px-6 py-8">
+
+                <div className="mb-8">
+                    <DebaterPanel />
+                </div>
 
                 {/* Navigation Tabs */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
